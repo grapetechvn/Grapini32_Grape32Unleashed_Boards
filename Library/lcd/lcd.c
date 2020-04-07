@@ -1,4 +1,7 @@
 #include "../Inc/lcd.h"
+#include "stdio.h"
+#include "stdarg.h"
+
 void LCD_sendCmd( uint8_t data) {
     HAL_GPIO_WritePin(RS_GPIO_Port, RS_Pin, GPIO_PIN_RESET);
     LCD_sendByte(data);
@@ -55,4 +58,19 @@ void LCD_scroll(char isScroll){
 	if(isScroll){
 		LCD_sendCmd(LCD_ENTRYMODESET | LCD_ENTRYSHIFTINCREMENT);
 	}
+}
+
+int LCD_printf(const char* fmt,...)
+{
+	int done;
+	va_list args;
+	static char buffer[256];
+	va_start(args,fmt);
+
+	done = vsnprintf(buffer,256,fmt,args);
+
+	LCD_puts(buffer);
+
+	va_end(args);
+	return done;
 }

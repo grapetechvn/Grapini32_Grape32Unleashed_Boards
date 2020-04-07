@@ -59,4 +59,6 @@ void LCD_clear();
 void LCD_setCursor(char row, char col);
 
 void LCD_scroll(char isScroll);
+
+int LCD_printf(const char* fmt,...);
 #endif /* LCD_H_ */
